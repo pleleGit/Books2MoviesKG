@@ -1,0 +1,117 @@
+@prefix ex: <http://example.org/mini#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix bibo: <http://purl.org/ontology/bibo/> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix mo: <http://purl.org/ontology/mo/> .
+
+# Ontology for Books and Movies mini-project
+ex:BooksPlusMovies a owl:Ontology ;
+    owl:versionIRI "http://example.org/mini/ontology/1.0" ;
+    rdfs:comment "This ontology interconnects books and their movie adaptations (if exist)" .
+
+#################################################################
+# Classes
+
+ex:Book a owl:Class ;
+    rdfs:subClassOf bibo:Book ;
+    rdfs:label "Book" .
+
+ex:Movie a owl:Class ;
+    rdfs:subClassOf mo:Movie ;
+    rdfs:label "Movie" .
+
+ex:Person a owl:Class ;
+    rdfs:subClassOf foaf:Person ;
+    rdfs:label "Person" .
+
+ex:Author a owl:Class ;
+    rdfs:subClassOf ex:Person ;
+    rdfs:label "Author" .
+
+ex:Director a owl:Class ;
+    rdfs:subClassOf ex:Person ;
+    rdfs:label "Director" .
+
+ex:Genre a owl:Class ;
+    rdfs:label "Genre" .
+
+ex:Rating a owl:Class ;
+    rdfs:subClassOf bibo:Review ;
+    rdfs:label "Rating" .
+
+#################################################################
+# Object Properties
+
+## Book/Movie-to-Person
+ex:hasAuthor a owl:ObjectProperty ;
+    rdfs:domain ex:Book ;
+    rdfs:range ex:Author ;
+    rdfs:label "has author" .
+
+ex:hasDirector a owl:ObjectProperty ;
+    rdfs:domain ex:Movie ;
+    rdfs:range ex:Director ;
+    rdfs:label "has director" .
+
+## Interconnecting Books and Movies
+ex:adaptedInto a owl:ObjectProperty ;
+    rdfs:domain ex:Book ;
+    rdfs:range ex:Movie ;
+    rdfs:label "adapted into" ;
+    owl:inverseOf ex:adaptationOf .
+
+ex:adaptationOf a owl:ObjectProperty ;
+    rdfs:domain ex:Movie ;
+    rdfs:range ex:Book ;
+    rdfs:label "adaptation of" .
+
+## Shared Relationships
+ex:hasGenre a owl:ObjectProperty ;
+    rdfs:domain [ owl:unionOf ( ex:Book ex:Movie ) ] ;
+    rdfs:range ex:Genre ;
+    rdfs:label "has genre" .
+
+ex:hasRating a owl:ObjectProperty ;
+    rdfs:domain [ owl:unionOf ( ex:Book ex:Movie ) ] ;
+    rdfs:range ex:Rating ;
+    rdfs:label "has rating" .
+
+#################################################################
+# Datatype Properties
+
+## Temporal Attributes
+ex:publishedYear a owl:DatatypeProperty ;
+    rdfs:domain ex:Book ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "published year" .
+
+ex:releaseYear a owl:DatatypeProperty ;
+    rdfs:domain ex:Movie ;
+    rdfs:range xsd:gYear ;
+    rdfs:label "release year" .
+
+## Rating Details
+ex:ratingValue a owl:DatatypeProperty ;
+    rdfs:domain ex:Rating ;
+    rdfs:range xsd:decimal ;
+    rdfs:label "rating value" .
+
+ex:ratingSource a owl:DatatypeProperty ;
+    rdfs:domain ex:Rating ;
+    rdfs:range xsd:string ;
+    rdfs:label "rating source" .
+
+## Genre Label
+dc:subject a owl:DatatypeProperty ;
+    rdfs:domain ex:Genre ;
+    rdfs:range xsd:string ;
+    rdfs:label "genre name" .
+
+#################################################################
+# Recommended Enhancements
+# - Add cardinality constraints if needed (e.g., a Movie must have at least one director).
+# - Use OWL restrictions to enforce that Adaptations link only books to movies.

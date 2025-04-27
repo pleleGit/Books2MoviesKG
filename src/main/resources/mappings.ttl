@@ -1,0 +1,109 @@
+@prefix rml:   <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr:    <http://www.w3.org/ns/r2rml#> .
+@prefix ql:    <http://semweb.mmlab.be/ns/ql#> .
+@prefix ex:    <http://example.org/mini#> .
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@base <http://example.org/mini/mappings/> .
+
+# Simplified RML mappings for Books and Movies
+
+#################################################################
+# TriplesMap: Books
+# ------------------------------------------------------------
+<#BooksMap>
+  a rr:TriplesMap;
+  rml:logicalSource [
+      rml:source "books.csv";
+      rml:referenceFormulation ql:CSV;
+      rml:iterator "$"
+    ];
+  # Subject for each book using its ID
+  rr:subjectMap [
+      rr:template "http://example.org/mini/book/{bookID}";
+      rr:class ex:Book
+    ];
+  # Title
+  rr:predicateObjectMap [
+      rr:predicate dc:title;
+      rr:objectMap [ rml:reference "title" ]
+    ];
+  # Author relationship
+  rr:predicateObjectMap [
+      rr:predicate ex:hasAuthor;
+      rr:objectMap [
+                     rr:template "http://example.org/mini/author/{authors}";
+                     rr:class ex:Author
+                   ]
+    ];
+  # Publication date
+  rr:predicateObjectMap [
+      rr:predicate ex:publishedYear;
+      rr:objectMap [
+                     rml:reference "publication_date";
+                     rr:datatype xsd:date
+                   ]
+    ];
+  # Average rating directly as a property
+  rr:predicateObjectMap [
+      rr:predicate ex:ratingValue;
+      rr:objectMap [
+                     rml:reference "average_rating";
+                     rr:datatype xsd:decimal
+                   ]
+    ].
+
+#################################################################
+# TriplesMap: Movies
+# ------------------------------------------------------------
+<#MoviesMap>
+  a rr:TriplesMap;
+  rml:logicalSource [
+      rml:source "imdb_top_1000.csv";
+      rml:referenceFormulation ql:CSV;
+      rml:iterator "$"
+    ];
+  # Subject for each movie using its title
+  rr:subjectMap [
+      rr:template "http://example.org/mini/movie/{movieID}";
+      rr:class ex:Movie
+    ];
+  # Title
+  rr:predicateObjectMap [
+      rr:predicate dc:title;
+      rr:objectMap [ rml:reference "Series_Title" ]
+    ];
+  # Director relationship
+  rr:predicateObjectMap [
+      rr:predicate ex:hasDirector;
+      rr:objectMap [
+                     rr:template "http://example.org/mini/director/{Director}";
+                     rr:class ex:Director
+                   ]
+    ];
+  # Release year
+  rr:predicateObjectMap [
+      rr:predicate ex:releaseYear;
+      rr:objectMap [
+                     rml:reference "Released_Year";
+                     rr:datatype xsd:gYear
+                   ]
+    ];
+  # Genre(s) mapping; split comma-separated list in post-processing
+  rr:predicateObjectMap [
+      rr:predicate ex:hasGenre;
+      rr:objectMap [ rml:reference "Genre" ]
+    ];
+  # IMDB rating as a direct property
+  rr:predicateObjectMap [
+      rr:predicate ex:ratingValue;
+      rr:objectMap [
+                     rml:reference "IMDB_Rating";
+                     rr:datatype xsd:decimal
+                   ]
+    ].
+
+# Notes:
+# - Comma-separated genre values should be split into multiple ex:Genre instances programmatically using RDF4J.
+# - Adaptation relationships (ex:adaptedInto / ex:adaptationOf) will be added in code by matching book titles to corresponding movies.
+# - Further enhancements: handle multilingual titles, add language tags, and enforce data integrity via OWL restrictions.

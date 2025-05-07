@@ -1,0 +1,724 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+    <!ENTITY Camo_Ontology "http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#" >
+    <!ENTITY Ontology-Schema_Movie "http://www.semanticweb.org/administrator/ontologies/2017/2/Ontology-Schema_Movie#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:Ontology-Schema_Movie="http://www.semanticweb.org/administrator/ontologies/2017/2/Ontology-Schema_Movie#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:Camo_Ontology="http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#">
+    <Ontology rdf:about="http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#aboutAwards -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;aboutAwards">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#directedBy -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;directedBy">
+        <rdfs:range rdf:resource="&Camo_Ontology;Director"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#directedMovie -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;directedMovie">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Director"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Movie"/>
+        <inverseOf rdf:resource="&Camo_Ontology;directedBy"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasAwardsSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasAwardsSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasCast -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasCast">
+        <rdfs:range rdf:resource="&Camo_Ontology;Actor"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Actress"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasCastPerformancesSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasCastPerformancesSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasCertification -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasCertification">
+        <rdfs:range rdf:resource="&Camo_Ontology;General(G)"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;NC-17(AdultsOnly)"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;NotRated(NR)"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;ParentalGuidance(PG)"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;ParentalGuidance-13(PG-13)"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Restricted(R)"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasCinematographySentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasCinematographySentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasDirectionSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasDirectionSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasGenre -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasGenre">
+        <rdfs:range rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;GenreCategory3"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasMusicSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasMusicSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasScenesSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasScenesSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasStorySentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasStorySentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasSubGenre -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasSubGenre">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Genre"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;SubGenre1"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;SubGenre2"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;SubGenre3"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasVisualEffectsSentiments -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasVisualEffectsSentiments">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonAwardsBafta -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonAwardsBafta">
+        <rdfs:range rdf:resource="&Camo_Ontology;Bafta"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonAwardsGoldenGlobe -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonAwardsGoldenGlobe">
+        <rdfs:range rdf:resource="&Camo_Ontology;GoldenGlobe"/>
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsActor -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsActor">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsActress -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsActress">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsAnimatedMovie -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsAnimatedMovie">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsBestPicture -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsBestPicture">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsCinematography -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsCinematography">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsDirector -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsDirector">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#hasWonOscarsVisualEffects -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;hasWonOscarsVisualEffects">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;Oscars"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#reviewedByCritics -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;reviewedByCritics">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;NumberofCriticReviews"/>
+    </ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#reviewedByUser -->
+
+    <ObjectProperty rdf:about="&Camo_Ontology;reviewedByUser">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&Camo_Ontology;NumberofUserReviews"/>
+    </ObjectProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Data properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#about -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;about">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#abstract -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;abstract">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#awardsSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;awardsSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#basedOn -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;basedOn">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#castPerformancesSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;castPerformancesSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#cinematographySentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;cinematographySentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#directionSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;directionSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#dvdReleaseDate -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;dvdReleaseDate">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#musicSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;musicSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#rating -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;rating">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#scenesSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;scenesSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#storySentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;storySentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#theatreReleaseDate -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;theatreReleaseDate">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;dateTime"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#title -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;title">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;string"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#totalUserReviews -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;totalUserReviews">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;integer"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#visualEffectsSentimentValue -->
+
+    <DatatypeProperty rdf:about="&Camo_Ontology;visualEffectsSentimentValue">
+        <rdfs:domain rdf:resource="&Camo_Ontology;Movie"/>
+        <rdfs:range rdf:resource="&xsd;double"/>
+    </DatatypeProperty>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Actor -->
+
+    <Class rdf:about="&Camo_Ontology;Actor">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;CastandCrew"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Actress -->
+
+    <Class rdf:about="&Camo_Ontology;Actress">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;CastandCrew"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Awards -->
+
+    <Class rdf:about="&Camo_Ontology;Awards">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Movie"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Bafta -->
+
+    <Class rdf:about="&Camo_Ontology;Bafta">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Awards"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#CastandCrew -->
+
+    <Class rdf:about="&Camo_Ontology;CastandCrew">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Movie"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Certification -->
+
+    <Class rdf:about="&Camo_Ontology;Certification">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Movie"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Director -->
+
+    <Class rdf:about="&Camo_Ontology;Director">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;CastandCrew"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#General(G) -->
+
+    <Class rdf:about="&Camo_Ontology;General(G)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Genre -->
+
+    <Class rdf:about="&Camo_Ontology;Genre">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Movie"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#GenreCategory1 -->
+
+    <Class rdf:about="&Camo_Ontology;GenreCategory1">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Genre"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#GenreCategory2 -->
+
+    <Class rdf:about="&Camo_Ontology;GenreCategory2">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Genre"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#GenreCategory3 -->
+
+    <Class rdf:about="&Camo_Ontology;GenreCategory3">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Genre"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#GoldenGlobe -->
+
+    <Class rdf:about="&Camo_Ontology;GoldenGlobe">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Awards"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Movie -->
+
+    <Class rdf:about="&Camo_Ontology;Movie"/>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#NC-17(AdultsOnly) -->
+
+    <Class rdf:about="&Camo_Ontology;NC-17(AdultsOnly)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#NotRated(NR) -->
+
+    <Class rdf:about="&Camo_Ontology;NotRated(NR)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#NumberofCriticReviews -->
+
+    <Class rdf:about="&Camo_Ontology;NumberofCriticReviews">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Reviews"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#NumberofUserReviews -->
+
+    <Class rdf:about="&Camo_Ontology;NumberofUserReviews">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Reviews"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Oscars -->
+
+    <Class rdf:about="&Camo_Ontology;Oscars">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Awards"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#ParentalGuidance(PG) -->
+
+    <Class rdf:about="&Camo_Ontology;ParentalGuidance(PG)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#ParentalGuidance-13(PG-13) -->
+
+    <Class rdf:about="&Camo_Ontology;ParentalGuidance-13(PG-13)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Restricted(R) -->
+
+    <Class rdf:about="&Camo_Ontology;Restricted(R)">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Certification"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#Reviews -->
+
+    <Class rdf:about="&Camo_Ontology;Reviews">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;Movie"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre1 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre1">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre10 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre10">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre2 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre2">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre3 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre3">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre4 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre4">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre5 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre5">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre6 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre6">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre7 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre7">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre8 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre8">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+
+
+    <!-- http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#SubGenre9 -->
+
+    <Class rdf:about="&Camo_Ontology;SubGenre9">
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory1"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory2"/>
+        <rdfs:subClassOf rdf:resource="&Camo_Ontology;GenreCategory3"/>
+    </Class>
+    
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

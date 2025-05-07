@@ -1,0 +1,318 @@
+@prefix rr: <http://www.w3.org/ns/r2rml#> .
+@prefix rml: <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql: <http://semweb.mmlab.be/ns/ql#> .
+@prefix camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#> .
+@prefix domain: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix map: <http://example.org/mapping/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+### Mapping for Movie
+map:MovieMapping 
+  a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+  
+  rr:subjectMap [
+    rr:template "http://example.com/movie/{Series_Title}"
+  ] ;
+  
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Movie ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:title ;
+    rr:objectMap [ 
+      rml:reference "Series_Title" ;
+      rr:datatype xsd:string
+    ]
+  ] ;
+  
+  rr:predicateObjectMap [
+    rr:predicate camo:hasCast ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Actor1Mapping ;
+      rr:joinCondition [ rr:child "Star1" ; rr:parent "Star1" ]
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:hasCast ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Actor2Mapping ;
+      rr:joinCondition [ rr:child "Star2" ; rr:parent "Star2" ]
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:hasCast ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Actor3Mapping ;
+      rr:joinCondition [ rr:child "Star3" ; rr:parent "Star3" ]
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:hasCast ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Actor4Mapping ;
+      rr:joinCondition [ rr:child "Star4" ; rr:parent "Star4" ]
+    ]
+  ] ;
+  
+  rr:predicateObjectMap [
+    rr:predicate camo:directedBy ;
+    rr:objectMap [
+      rr:parentTriplesMap map:DirectorMapping ;
+      rr:joinCondition [ rr:child "Director" ; rr:parent "Director" ]
+    ]
+  ] ;
+  
+  rr:predicateObjectMap [
+    rr:predicate camo:totalUserReviews ;
+    rr:objectMap [ 
+      rml:reference "No_of_Votes" ;
+      rr:datatype xsd:integer 
+    ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:theatreReleaseDate ;
+    rr:objectMap [ 
+      rml:reference "Released_Year" ;
+      rr:datatype xsd:gYear
+    ]
+  ] ;
+  
+  # Genre1
+  rr:predicateObjectMap [
+    rr:predicate camo:hasGenre ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Genre1Mapping ;
+      rr:joinCondition [ rr:child "Genre1" ; rr:parent "Genre1" ]
+    ]
+  ] ;
+
+  # Genre2
+  rr:predicateObjectMap [
+    rr:predicate camo:hasGenre ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Genre2Mapping ;
+      rr:joinCondition [ rr:child "Genre2" ; rr:parent "Genre2" ]
+    ]
+  ] ;
+
+  # Genre3
+  rr:predicateObjectMap [
+    rr:predicate camo:hasGenre ;
+    rr:objectMap [
+      rr:parentTriplesMap map:Genre3Mapping ;
+      rr:joinCondition [ rr:child "Genre3" ; rr:parent "Genre3" ]
+    ]
+  ] ;
+  
+  rr:predicateObjectMap [
+    rr:predicate camo:hasCertification ;
+    rr:objectMap [
+      rr:parentTriplesMap map:CertificationMapping ;
+      rr:joinCondition [ rr:child "Certificate" ; rr:parent "Certificate" ]
+    ]
+  ] .
+
+
+
+
+### Mapping for Director 
+map:DirectorMapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+  rr:subjectMap [
+    rr:template "http://example.com/director/{Director}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Director ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate camo:directorName ;
+    rr:objectMap [ 
+      rml:reference "Director" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+
+map:Actor1Mapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.com/actor/{Star1}"
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Actor ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:actorName ;
+    rr:objectMap [
+      rml:reference "Star1" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+  
+  ### Mapping for Actor2 (Star2)
+map:Actor2Mapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.com/actor/{Star2}"
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Actor ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:actorName ;
+    rr:objectMap [
+      rml:reference "Star2" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+
+### Mapping for Actor3 (Star3)
+map:Actor3Mapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.com/actor/{Star3}"
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Actor ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:actorName ;
+    rr:objectMap [
+      rml:reference "Star3" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+
+### Mapping for Actor4 (Star4)
+map:Actor4Mapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.com/actor/{Star4}"
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Actor ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate camo:actorName ;
+    rr:objectMap [
+      rml:reference "Star4" ;
+      rr:datatype xsd:string
+    ]
+  ] .
+  
+### Genre1 Mapping
+map:Genre1Mapping a rr:TriplesMap ;
+  rml:logicalSource [ 
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV 
+  ] ;
+  rr:subjectMap [
+    rr:template "http://example.com/genre/{Genre1}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Genre ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate camo:title ;
+    rr:objectMap [ rml:reference "Genre1" ; rr:datatype xsd:string ]
+  ] .
+
+### Genre2 Mapping
+map:Genre2Mapping a rr:TriplesMap ;
+  rml:logicalSource [ 
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV 
+  ] ;
+  rr:subjectMap [
+    rr:template "http://example.com/genre/{Genre2}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Genre ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate camo:title ;
+    rr:objectMap [ rml:reference "Genre2" ; rr:datatype xsd:string ]
+  ] .
+
+### Genre3 Mapping
+map:Genre3Mapping a rr:TriplesMap ;
+  rml:logicalSource [ 
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV 
+  ] ;
+  rr:subjectMap [
+    rr:template "http://example.com/genre/{Genre3}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [ rr:constant camo:Genre ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate camo:title ;
+    rr:objectMap [ rml:reference "Genre3" ; rr:datatype xsd:string ]
+  ] .
+  
+### Mapping για Certification
+map:CertificationMapping a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "imdb_top_1000.csv" ;
+    rml:referenceFormulation ql:CSV
+  ] ;
+  rr:subjectMap [
+    rr:template "http://example.com/certification/{Certificate}"
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate rdf:type ;
+    rr:objectMap [
+      rr:template "http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#{Certificate}"
+    ]
+  ] .
+
+
+  
+  
+ 

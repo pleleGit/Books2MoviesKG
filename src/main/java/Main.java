@@ -36,8 +36,8 @@ public class Main {
             Model model = pipeline.runRMLMapping();
             // Step 2: Post-processing: split genres and link adaptations
             pipeline.processModel(model);
-//            // Step 3: Upload Ontology + Data to GraphDB
-//            pipeline.uploadToGraphDB(model);
+            // Step 3: Upload Ontology + Data to GraphDB
+            pipeline.uploadToGraphDB(model);
             System.out.println("Pipeline completed successfully.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -47,83 +47,88 @@ public class Main {
     private Model runRMLMapping() throws Exception {
         System.out.println("Running RML Mapper...");
         System.out.println("Current working directory: " + System.getProperty("user.dir"));
-        // Get the mapping string stream
-        File mappingFile = new File("./src/main/resources/mappings.ttl");
-        InputStream mappingStream = new FileInputStream(mappingFile);
-        // Load mapping
-        QuadStore rmlStore = QuadStoreFactory.read(mappingStream);
-        RecordsFactory factory = new RecordsFactory(mappingFile.getParent());
-        // Set up functions
-        Map<String, Class> libraryMap = new HashMap<>();
-        libraryMap.put("IDLabFunctions", IDLabFunctions.class);
-        FunctionLoader functionLoader = new FunctionLoader(null, libraryMap);
-        // Output
-        QuadStore outputStore = new RDF4JStore();
-        Executor executor = new Executor(rmlStore, factory, functionLoader, outputStore, Utils.getBaseDirectiveTurtle(mappingStream));
-        QuadStore result = executor.executeV5(null).get(new NamedNode("rmlmapper://default.store"));
-        Model rdf4jModel = ((RDF4JStore) result).getModel();
-        // Output the results in a file
+
+        // Paths to both mapping files
+        File bookMappingFile = new File("./src/main/resources/books/bookMappings.ttl");
+        File movieMappingFile = new File("./src/main/resources/movies/movie_mapping.ttl");
+
+        // Execute and collect both mappings
+        Model bookModel = executeMapping(bookMappingFile);
+        Model movieModel = executeMapping(movieMappingFile);
+
+        // Merge models
+        bookModel.addAll(movieModel);
+
+        // Write combined output
         Writer output = new FileWriter("./src/main/resources/outputFile.ttl");
-        result.write(output, "turtle");
+        Rio.write(bookModel, output, RDFFormat.TURTLE);
         output.close();
-        return rdf4jModel;
+
+        return bookModel;
     }
 
-    private void processModel(@NotNull Model model) {
-        System.out.println("Post-processing model (splitting genres, linking adaptations)...");
-        ValueFactory vf = SimpleValueFactory.getInstance();
-        Map<String, IRI> books = new HashMap<>();
-        Map<String, IRI> movies = new HashMap<>();
-        // collect all movies and books titles
-        model.filter(null, vf.createIRI("http://purl.org/dc/terms/title"), null)
-                .forEach(stmt -> {
-                    String title = stmt.getObject().stringValue();
-                    IRI subject = (IRI) stmt.getSubject();
-                    if (subject.toString().contains("/book/")) {
-                        books.put(title, subject);
-                    } else if (subject.toString().contains("/movie/")) {
-                        movies.put(title, subject);
-                    }
-                });
-        // split genres
-        List<Statement> genreStatements = new ArrayList<>();
-        model.filter(null, vf.createIRI("http://example.org/mini#hasGenre"), null)
-                .forEach(genreStatements::add); // First collect to a list
-        for (org.eclipse.rdf4j.model.Statement stmt : genreStatements) {
-            String[] genres = stmt.getObject().stringValue().split(",");
-            IRI subject = (IRI) stmt.getSubject();
-            model.remove(stmt); // Now safe to remove
+    private Model executeMapping(File mappingFile) throws Exception {
+        System.out.println("Executing mapping: " + mappingFile.getName());
 
-            for (String genre : genres) {
-                String clean = genre.trim().replaceAll(" ", "_");
-                IRI genreIRI = vf.createIRI("http://example.org/mini/genre/" + clean);
-                model.add(genreIRI, vf.createIRI("http://www.w3.org/2000/01/rdf-schema#label"), vf.createLiteral(genre.trim()));
-                model.add(subject, vf.createIRI("http://example.org/mini#hasGenre"), genreIRI);
+        try (InputStream mappingStream = new FileInputStream(mappingFile)) {
+            QuadStore rmlStore = QuadStoreFactory.read(mappingStream);
+            RecordsFactory factory = new RecordsFactory(mappingFile.getParent());
+
+            Map<String, Class> libraryMap = new HashMap<>();
+            libraryMap.put("IDLabFunctions", IDLabFunctions.class);
+            FunctionLoader functionLoader = new FunctionLoader(null, libraryMap);
+
+            QuadStore outputStore = new RDF4JStore();
+            Executor executor = new Executor(rmlStore, factory, functionLoader, outputStore, Utils.getBaseDirectiveTurtle(mappingStream));
+            QuadStore result = executor.executeV5(null).get(new NamedNode("rmlmapper://default.store"));
+            return ((RDF4JStore) result).getModel();
+        }
+    }
+
+private void processModel(@NotNull Model model) {
+    System.out.println("Post-processing model (linking adaptations)...");
+    ValueFactory vf = SimpleValueFactory.getInstance();
+    IRI dcTitle = vf.createIRI("http://purl.org/dc/terms/title");
+    IRI camoTitle = vf.createIRI("http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#title");
+    Map<String, IRI> books = new HashMap<>();
+    Map<String, IRI> movies = new HashMap<>();
+    // collect all books titles
+    model.filter(null, dcTitle, null).forEach(stmt -> {
+        String title = stmt.getObject().stringValue().toLowerCase().trim();
+        IRI subject = (IRI) stmt.getSubject();
+        books.put(title, subject);
+    });
+    // Collect all movie titles
+    model.filter(null, camoTitle, null).forEach(stmt -> {
+        String title = stmt.getObject().stringValue().toLowerCase().trim();
+        IRI subject = (IRI) stmt.getSubject();
+        movies.put(title, subject);
+    });
+    // Match by title and add adaptedInto / adaptationOf links
+    for (Map.Entry<String, IRI> bookEntry : books.entrySet()) {
+        String bookTitle = bookEntry.getKey();
+        IRI bookIRI = bookEntry.getValue();
+        for (Map.Entry<String, IRI> movieEntry : movies.entrySet()) {
+            String movieTitle = movieEntry.getKey();
+            IRI movieIRI = movieEntry.getValue();
+            if (movieTitle.startsWith(bookTitle) || bookTitle.startsWith(movieTitle)) {
+                model.add(bookIRI, vf.createIRI("http://example.org/mini#adaptedInto"), movieIRI);
+                model.add(movieIRI, vf.createIRI("http://example.org/mini#adaptationOf"), bookIRI);
+                System.out.println("Linking: Book \"" + bookTitle + "\" -> Movie \"" + movieTitle + "\"");
+                break;
             }
         }
-        // add the property adaptedInto (book->movie) and adaptationOf (movie->book) between books and movies
-        for (Map.Entry<String, IRI> entry : books.entrySet()) {
-            String bookTitle = entry.getKey();
-            IRI bookIRI = entry.getValue();
-            movies.forEach((movieTitle, movieIRI) -> {
-                if (movieTitle.startsWith(bookTitle.split("\\(")[0].trim())) {
-                    model.add(bookIRI, vf.createIRI("http://example.org/mini#adaptedInto"), movieIRI);
-                    model.add(movieIRI, vf.createIRI("http://example.org/mini#adaptationOf"), bookIRI);
-                    System.out.println("Adding connection between " + bookIRI + " and " + movieIRI);
-                }
-            });
-        }
-        // Write final output to Turtle file
-        try (Writer output = new FileWriter("./src/main/resources/outputFileFinal.ttl")) {
-            Rio.write(model, output, RDFFormat.TURTLE);
-            System.out.println("Post-processed model saved to outputFile.ttl");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
+    try (Writer output = new FileWriter("./src/main/resources/outputFileFinal.ttl")) {
+        Rio.write(model, output, RDFFormat.TURTLE);
+        System.out.println("Post-processed model saved to outputFileFinal.ttl");
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+}
 
     private void uploadToGraphDB(Model model) {
-        System.out.println("Uploading ontology and data to GraphDB...");
+        System.out.println("Uploading ontology and data to GraphDB...\n" + SERVER_URL + "/repositories/" + REPOSITORY_ID);
         HTTPRepository repo = new HTTPRepository(SERVER_URL + "/repositories/" + REPOSITORY_ID);
         repo.initialize();
         try (RepositoryConnection conn = repo.getConnection()) {
@@ -131,7 +136,15 @@ public class Main {
             // Load ontology
             conn.begin();
             try {
-                conn.add(Main.class.getResourceAsStream("/mappings/ontology.ttl"), "urn:base", RDFFormat.TURTLE);
+                conn.add(new FileInputStream("./src/main/resources/books/bookOntology.owl"),
+                        "urn:base",
+                        RDFFormat.RDFXML);
+                conn.add(new FileInputStream("./src/main/resources/books/CAMO_Ontology.owl"),
+                        "urn:base",
+                        RDFFormat.RDFXML);
+                conn.add(new FileInputStream("./src/main/resources/outputFileFinal.ttl"),
+                        "urn:base",
+                        RDFFormat.TURTLE);
             } catch (IOException e) {
                 e.printStackTrace();
             }

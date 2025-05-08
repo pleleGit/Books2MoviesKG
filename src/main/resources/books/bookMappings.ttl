@@ -1,0 +1,56 @@
+@prefix rml:   <http://semweb.mmlab.be/ns/rml#> .
+@prefix rr:    <http://www.w3.org/ns/r2rml#> .
+@prefix ql:    <http://semweb.mmlab.be/ns/ql#> .
+@prefix ex:    <http://example.org/mini#> .
+@prefix dc:    <http://purl.org/dc/terms/> .
+@prefix xsd:   <http://www.w3.org/2001/XMLSchema#> .
+@base <http://example.org/mini/mappings/> .
+
+# Simplified RML mappings for Books and Movies
+
+#################################################################
+# TriplesMap: Books
+# ------------------------------------------------------------
+<#BooksMap>
+  a rr:TriplesMap;
+  rml:logicalSource [
+      rml:source "books.csv";
+      rml:referenceFormulation ql:CSV;
+      rml:iterator "$"
+    ];
+  # Subject for each book using its ID
+  rr:subjectMap [
+      rr:template "http://example.org/mini/book/{bookID}";
+      rr:class ex:Book
+    ];
+  # Title
+  rr:predicateObjectMap [
+      rr:predicate dc:title;
+      rr:objectMap [ rml:reference "title" ]
+    ];
+  # Author relationship
+  rr:predicateObjectMap [
+      rr:predicate ex:hasAuthor;
+      rr:objectMap [
+                     rr:template "http://example.org/mini/author/{authors}";
+                     rr:class ex:Author
+                   ]
+    ];
+  # Publication date
+  rr:predicateObjectMap [
+      rr:predicate ex:publishedYear;
+      rr:objectMap [
+                     rml:reference "publication_date";
+                     rr:datatype xsd:date
+                   ]
+    ];
+  # Average rating directly as a property
+  rr:predicateObjectMap [
+      rr:predicate ex:ratingValue;
+      rr:objectMap [
+                     rml:reference "average_rating";
+                     rr:datatype xsd:decimal
+                   ]
+    ].
+
+#################################################################

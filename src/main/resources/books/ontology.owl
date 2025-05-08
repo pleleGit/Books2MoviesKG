@@ -6,12 +6,12 @@
 @prefix bibo: <http://purl.org/ontology/bibo/> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-@prefix mo: <http://purl.org/ontology/mo/> .
 
 # Ontology for Books and Movies mini-project
 ex:BooksPlusMovies a owl:Ontology ;
     owl:versionIRI "http://example.org/mini/ontology/1.0" ;
-    rdfs:comment "This ontology interconnects books and their movie adaptations (if exist)" .
+    rdfs:comment "This ontology interconnects books and their movie adaptations (if they exist)" ;
+    owl:imports <http://purl.org/ontology/bibo/> , <http://purl.org/dc/terms/> , <http://xmlns.com/foaf/0.1/> .
 
 #################################################################
 # Classes
@@ -21,7 +21,6 @@ ex:Book a owl:Class ;
     rdfs:label "Book" .
 
 ex:Movie a owl:Class ;
-    rdfs:subClassOf mo:Movie ;
     rdfs:label "Movie" .
 
 ex:Person a owl:Class ;
@@ -112,6 +111,6 @@ dc:subject a owl:DatatypeProperty ;
     rdfs:label "genre name" .
 
 #################################################################
-# Recommended Enhancements
+# Possible Enhancements
 # - Add cardinality constraints if needed (e.g., a Movie must have at least one director).
 # - Use OWL restrictions to enforce that Adaptations link only books to movies.

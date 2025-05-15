@@ -139,7 +139,7 @@ private void processModel(@NotNull Model model) {
                 conn.add(new FileInputStream("./src/main/resources/books/bookOntology.owl"),
                         "urn:base",
                         RDFFormat.RDFXML);
-                conn.add(new FileInputStream("./src/main/resources/books/CAMO_Ontology.owl"),
+                conn.add(new FileInputStream("./src/main/resources/movies/CAMO_Ontology.owl"),
                         "urn:base",
                         RDFFormat.RDFXML);
                 conn.add(new FileInputStream("./src/main/resources/outputFileFinal.ttl"),

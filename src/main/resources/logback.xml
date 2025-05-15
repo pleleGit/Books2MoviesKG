@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <!-- Only show ERROR logs globally -->
+    <root level="ERROR">
+        <appender-ref ref="STDOUT"/>
+    </root>
+
+    <!-- Silence specific RMLMapper classes -->
+    <logger name="be.ugent.rml.functions.ConcatFunction" level="OFF"/>
+    <logger name="be.ugent.rml.functions.FunctionLoader" level="OFF"/>
+
+    <!-- Console output -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+</configuration>

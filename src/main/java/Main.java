@@ -38,6 +38,8 @@ public class Main {
             pipeline.processModel(model);
             // Step 3: Upload Ontology + Data to GraphDB
             pipeline.uploadToGraphDB(model);
+            // Step 4: Run a SPARQL query
+            pipeline.runSPARQLQuery();
             System.out.println("Pipeline completed successfully.");
         } catch (Exception e) {
             e.printStackTrace();
@@ -133,7 +135,6 @@ private void processModel(@NotNull Model model) {
         repo.initialize();
         try (RepositoryConnection conn = repo.getConnection()) {
             conn.clear();
-            // Load ontology
             conn.begin();
             try {
                 conn.add(new FileInputStream("./src/main/resources/books/bookOntology.owl"),
@@ -150,6 +151,39 @@ private void processModel(@NotNull Model model) {
             }
             conn.add(model);
             conn.commit();
+        }
+        repo.shutDown();
+    }
+
+    private void runSPARQLQuery() {
+        System.out.println("Running SPARQL query...");
+        HTTPRepository repo = new HTTPRepository(SERVER_URL + "/repositories/" + REPOSITORY_ID);
+        repo.initialize();
+        String sparql = """
+            PREFIX ex: <http://example.org/mini#>
+            PREFIX dc: <http://purl.org/dc/terms/>
+            PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+            SELECT ?book ?bookTitle ?bookRating ?publishedYear ?author
+            WHERE {
+              ?book a ex:Book ;
+                    dc:title ?bookTitle ;
+                    ex:ratingValue ?bookRating ;
+                    ex:publishedYear ?publishedYear ;
+                    ex:hasAuthor ?author .
+              FILTER(CONTAINS(LCASE(str(?author)), "tolkien") && ?bookRating > 4.4)
+            }
+            ORDER BY ?bookTitle
+        """;
+        try (RepositoryConnection conn = repo.getConnection()) {
+            conn.prepareTupleQuery(sparql).evaluate().forEach(bindingSet -> {
+                String title = bindingSet.getValue("bookTitle") != null ? bindingSet.getValue("bookTitle").stringValue() : "N/A";
+                String rating = bindingSet.getValue("bookRating") != null ? bindingSet.getValue("bookRating").stringValue() : "N/A";
+                String year = bindingSet.getValue("publishedYear") != null ? bindingSet.getValue("publishedYear").stringValue() : "N/A";
+                String author = bindingSet.getValue("author") != null ? bindingSet.getValue("author").stringValue() : "N/A";
+                System.out.println("Title: " + title + " | Rating: " + rating + " | Year: " + year + " | Author: " + author);
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         repo.shutDown();
     }

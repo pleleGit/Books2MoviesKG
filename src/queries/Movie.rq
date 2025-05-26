@@ -1,0 +1,15 @@
+PREFIX ex: <http://example.org/mini#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#>
+
+
+SELECT ?movie ?title ?theatreReleaseDate
+WHERE {
+  ?movie a camo:Movie ;
+           camo:title ?title ;
+    	   camo:theatreReleaseDate ?theatreReleaseDate .
+
+  # Ensure the published year is compared correctly
+  FILTER (?theatreReleaseDate > "1980"^^xsd:gYear)
+}

@@ -1,0 +1,18 @@
+PREFIX ex: <http://example.org/mini#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?book ?bookTitle ?bookRating ?publishedYear ?author
+WHERE {
+  # Match the book, including its title, rating, and publication year
+  ?book a ex:Book ;
+        dc:title ?bookTitle ;
+        ex:ratingValue ?bookRating ;
+        ex:publishedYear ?publishedYear ;
+        ex:hasAuthor ?author .
+
+  # Filter to find only books authored by Tolkien
+  FILTER(CONTAINS(LCASE(str(?author)), "tolkien") && ?bookRating > 4.4)  # Matching "Tolkien" case-insensitively
+}
+ORDER BY ?bookTitle
+

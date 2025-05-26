@@ -1,0 +1,23 @@
+PREFIX camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#>
+PREFIX ex: <http://example.org/mini#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?bookTitle ?ratingValue ?publishedYear ?adaptedInto ?title ?certification ?theatreReleaseDate ?totalUserReviews
+WHERE {
+  ?book a ex:Book ;
+        dc:title ?bookTitle ;
+        ex:ratingValue ?ratingValue ;
+        ex:publishedYear ?publishedYear ;
+    	ex:adaptedInto ?adaptedInto .
+
+     # Match the movie and get the title of the movie
+  	?adaptedInto a camo:Movie ;
+        camo:title ?title ;
+    	camo:theatreReleaseDate ?theatreReleaseDate ;
+    	camo:totalUserReviews ?totalUserReviews ;
+    	camo:hasCertification ?certification .
+
+  FILTER (?ratingValue > 4.1 && YEAR(xsd:dateTime(?publishedYear)) > 2000 && YEAR(?theatreReleaseDate) >= 1990 && ?totalUserReviews > 40000)
+
+}

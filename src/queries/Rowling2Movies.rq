@@ -1,0 +1,28 @@
+PREFIX camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#>
+PREFIX ex: <http://example.org/mini#>
+PREFIX dc: <http://purl.org/dc/terms/>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?bookTitle ?ratingValue ?publishedYear ?title ?certification ?theatreReleaseDate ?totalUserReviews
+WHERE {
+  ?book a ex:Book ;
+        dc:title ?bookTitle ;
+        ex:ratingValue ?ratingValue ;
+        ex:publishedYear ?publishedYear ;
+        ex:hasAuthor ?author ;
+        ex:adaptedInto ?movie .
+
+  FILTER(CONTAINS(LCASE(STR(?author)), "rowling"))
+
+  ?movie a camo:Movie ;
+         camo:title ?title ;
+         camo:theatreReleaseDate ?theatreReleaseDate ;
+         camo:totalUserReviews ?totalUserReviews ;
+         camo:hasCertification ?certification .
+
+  FILTER (?totalUserReviews > 10000)
+}
+ORDER BY DESC(?ratingValue)
+LIMIT 4
+
+

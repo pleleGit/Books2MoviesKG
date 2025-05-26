@@ -1,0 +1,13 @@
+PREFIX camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#>
+PREFIX domain: <http://example.org/mini#>
+
+SELECT DISTINCT ?title
+WHERE {
+  ?movie a camo:Movie ;
+         camo:title ?title ;
+         camo:hasGenre ?genre1, ?genre2 .
+
+  FILTER(CONTAINS(LCASE(STR(?genre1)), "drama"))
+  FILTER(CONTAINS(LCASE(STR(?genre2)), "history"))
+}
+ORDER BY ?title

@@ -1,0 +1,16 @@
+PREFIX camo: <http://www.semanticweb.org/administrator/ontologies/2017/2/Camo_Ontology#>
+PREFIX domain: <http://example.org/mini#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+
+SELECT ?title ?theatreReleaseDate ?actor
+WHERE {
+  ?movie a camo:Movie ;
+         camo:title ?title ;
+         camo:hasGenre ?genre ;
+         camo:theatreReleaseDate ?theatreReleaseDate ;
+         camo:hasCast ?actor .
+
+  FILTER(CONTAINS(LCASE(STR(?genre)), "drama"))
+  FILTER(xsd:integer(STR(?theatreReleaseDate)) > 2000)
+}
+ORDER BY ?theatreReleaseDate
